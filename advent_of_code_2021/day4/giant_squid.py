@@ -1,62 +1,12 @@
-from typing import List, Tuple, Dict, Optional
+from typing import List, Optional
 import re
+from dataclasses import dataclass
+import itertools
 
 
+@dataclass
 class PlayBoard:
-    def __init__(self, numbers: List[List[int]]) -> None:
-        """
-        Possible alternative structure: https://github.com/yatima1460/Bingo
-
-        :param numbers:
-        """
-
-        if not len(numbers) == 5 and [len(row) for row in numbers] == [5]*5:
-            raise ValueError(f"The PlayBoard needs to be of size 5x5 integers.")
-        self.play_board: List[List[Optional[int]]] = numbers
-        self.position: Dict[int, Tuple[int, int]] = dict()
-        self.bingo = {
-            "row": [0, 0, 0, 0, 0],
-            "col": [0, 0, 0, 0, 0],
-            "diagonal": [0, 0]
-        }
-
-        self._init_board(play_board=self.play_board)
-
-    def __repr__(self) -> str:
-        return str(self.play_board)
-
-    @property
-    def sum_of_remaining_values(self) -> int:
-        """ Sum remaining values on the play board. """
-        return sum([sum([val for val in row if val]) for row in self.play_board])
-
-    def _init_board(self, play_board: List[List[int]]) -> None:
-        for i in range(len(play_board)):
-            for j in range(len(play_board[i])):
-                self.position[play_board[i][j]] = (i, j)
-
-    def update_board(self, val: int) -> bool:
-        if val in self.position:
-            x, y = self.position[val]
-            self.play_board[x][y] = None  # Removing the number
-            self.update_bingo(x, y)
-            return self.check_bingo()
-
-    def update_bingo(self, x: int, y: int) -> None:
-        self.bingo["row"][x] += 1
-        self.bingo["col"][y] += 1
-        """
-                if x == y == 2:
-            self.bingo["diagonal"][0] += 1
-            self.bingo["diagonal"][1] += 1
-        elif x == y:
-            self.bingo["diagonal"][0] += 1
-        elif x + y == 4:
-            self.bingo["diagonal"][1] += 1
-        """
-
-    def check_bingo(self) -> bool:
-        return 5 in self.bingo["row"] or 5 in self.bingo["col"]   # or 5 in self.bingo["diagonal"]
+    numbers: List[List[Optional[int]]]
 
 
 def read_numbers() -> List[int]:
@@ -71,23 +21,40 @@ def read_boards() -> List[PlayBoard]:
     Given the data format, this divides equally by 6 for possible performant mapping.
     """
     with open("data.txt", "r") as file:
-        data = file.readlines()[1:]
+        data = file.readlines()[2:]
 
     cleaned_data = list(map(lambda x: re.split('\s+', x.strip()), data))
 
     play_boards: List[PlayBoard] = list()
-    for i in range(1, len(data), 6):
+    for i in range(0, len(data), 6):
         play_boards.append(PlayBoard(numbers=[list(map(int, x)) for x in cleaned_data[i: i+5]]))
 
     return play_boards
 
 
-def load_data() -> Tuple[List[int], List[PlayBoard]]:
-    """
-    Loading the input data.
-    """
-    numbers, boards = read_numbers(), read_boards()
-    return read_numbers(), read_boards()
+def calculate_final_score(play_board: PlayBoard, number: int) -> int:
+    """ Sum remaining values on the play board. """
+    return sum([sum([val for val in row if val]) for row in play_board.numbers]) * number
+
+
+def check_board_and_return_optional_score(play_board: PlayBoard, number: int) -> Optional[int]:
+    # Check rows
+    for row_num, row in enumerate(play_board.numbers):
+        if number in row:
+            row[row.index(number)] = None
+            if row == [None] * 5:
+                final_score = calculate_final_score(play_board=play_board, number=number)
+                return final_score
+
+    # check cols
+    for n in range(5):
+        col = [x[n] for x in play_board.numbers]
+        if col == [None] * 5:
+            final_score = calculate_final_score(play_board=play_board, number=number)
+            return final_score
+
+    else:
+        return None
 
 
 def part_one() -> None:
@@ -95,17 +62,17 @@ def part_one() -> None:
     To guarantee victory against the giant squid, figure out which board will win first.
     """
     print("Part 1: What will your final score be if you choose that board?")
-    numbers, play_boards = load_data()
+    numbers, play_boards = read_numbers(), read_boards()
 
-    winner = False
-    while not winner:
-        number = numbers.pop(0)
+    game_results = list()
+    for number in numbers:
         for play_board in play_boards:
-            if play_board.update_board(number):
-                sum_of_remaining_values = play_board.sum_of_remaining_values
-                print(f"The value of the remaining values: {sum_of_remaining_values} multiplied with last number:"
-                      f" {number} is: {sum_of_remaining_values * number}")
-                winner = True
+            score = check_board_and_return_optional_score(play_board=play_board, number=number)
+            if score:
+                game_results.append(score)
+
+
+    print(f"The value of the remaining values multiplied with last number: is: {game_results[0]}")
 
 
 def part_two() -> None:
@@ -113,19 +80,16 @@ def part_two() -> None:
     Let the giant squid win.
     """
     print("Part 2: Figure out which board will win last. Once it wins, what would its final score be?")
-    numbers, play_boards = load_data()
+    numbers, play_boards = read_numbers(), read_boards()
 
-    number = numbers[0]
-    play_board = play_boards[0]
-
-    while play_boards:
-        number = numbers.pop(0)
+    game_results = list()
+    for number in numbers:
         for play_board in play_boards:
-            if play_board.update_board(number):
-                play_boards.remove(play_board)
+            score = check_board_and_return_optional_score(play_board=play_board, number=number)
+            if score:
+                game_results.append(score)
 
-    print(f"The value of the remaining values: {play_board.sum_of_remaining_values} multiplied with last number:"
-          f" {number} is: {play_board.sum_of_remaining_values * number}")
+    print(f"The value of the remaining values multiplied with last number is: {game_results[-1]}")
 
 
 if __name__ == "__main__":
