@@ -34,8 +34,7 @@ def part_one() -> None:
         current_state = get_next_states(current_states=current_state)
     final_count = sum([x for x in current_state.values()])
 
-    print(f"How many lanternfish would there be after 80 days?")
-    print(final_count)
+    print(f"How many lanternfish would there be after 80 days?: {final_count}")
 
 
 def part_two() -> None:
@@ -50,8 +49,7 @@ def part_two() -> None:
         current_state = get_next_states(current_states=current_state)
     final_count = sum([x for x in current_state.values()])
 
-    print(f"How many lanternfish would there be after 256 days?")
-    print(final_count)
+    print(f"How many lanternfish would there be after 256 days?: {final_count}")
 
 
 if __name__ == "__main__":

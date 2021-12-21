@@ -54,8 +54,7 @@ def part_one() -> None:
     for line in lines:
         point_list += calculate_points_in_line(line=line, include_diagonal=False)
 
-    print(f"Number of overlapping points: ")
-    print(sum([1 for x in Counter(point_list).items() if x[1] >= 2]))
+    print(f"Number of overlapping points: {sum([1 for x in Counter(point_list).items() if x[1] >= 2])}")
 
 
 def part_two() -> None:
@@ -69,8 +68,7 @@ def part_two() -> None:
     for line in lines:
         point_list += calculate_points_in_line(line=line, include_diagonal=True)
 
-    print(f"Number of overlapping points including diagonals: ")
-    print(len([i for i in Counter(point_list).values() if i > 1]))
+    print(f"Number of overlapping points including diagonals: {len([i for i in Counter(point_list).values() if i > 1])}")
 
 
 if __name__ == "__main__":
