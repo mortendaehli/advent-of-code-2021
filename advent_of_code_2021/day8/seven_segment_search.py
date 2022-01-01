@@ -2,10 +2,10 @@ from typing import List
 
 
 def read_data() -> List[tuple]:
-    """ Return a list of tuples with digits and readouts. """
+    """Return a list of tuples with digits and readouts."""
     with open("data.txt", "r") as file:
         data = file.readlines()
-    return list(map(lambda x: (x[0].split(), x[1].split()), [line.strip().split(' | ') for line in data]))
+    return list(map(lambda x: (x[0].split(), x[1].split()), [line.strip().split(" | ") for line in data]))
 
 
 def part_one() -> float:
@@ -29,11 +29,7 @@ def part_two() -> float:
     for line in data:
         digits, readouts = line
 
-        digit_length_to_digit = {
-            length: set(digit)
-            for digit in digits
-            if (length := len(digit)) in (2, 4)
-        }
+        digit_length_to_digit = {length: set(digit) for digit in digits if (length := len(digit)) in (2, 4)}
 
         number = ""
         for readout in readouts:
@@ -69,8 +65,14 @@ def part_two() -> float:
 
 
 if __name__ == "__main__":
-    result1 = part_one()
-    print(f"In the output values, how many times do digits 1, 4, 7, or 8 appear?: {result1}")
-
-    result2 = part_two()
-    print(f"What do you get if you add up all of the output values?: {result2}")
+    print("Day 8: Seven Segment Search")
+    print("-" * 80)
+    result_part_1 = part_one()
+    print(f"Part 1: In the output values, how many times do digits 1, 4, 7, or 8 appear?: {result_part_1}")
+    print("-" * 80)
+    result_part_2 = part_two()
+    print(
+        f"Part 2: For each entry, determine all of the wire/segment connections and decode the four-digit output"
+        f" values. What do you get if you add up all of the output values?: {result_part_2}"
+    )
+    print("-" * 80)

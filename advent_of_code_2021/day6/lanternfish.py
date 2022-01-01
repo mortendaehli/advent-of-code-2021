@@ -46,7 +46,9 @@ if __name__ == "__main__":
     print("Day 6: Lanternfish")
     print("-" * 80)
     result_part_1 = part_one()
-    print(f"Find a way to simulate lanternfish. How many lanternfish would there be after 80 days?: {result_part_1}")
+    print(
+        f"Part 1: Find a way to simulate lanternfish. How many lanternfish would there be after 80 days?: {result_part_1}"
+    )
     print("-" * 80)
     result_part_2 = part_two()
     print(f"Part 2: How many lanternfish would there be after 256 days?: {result_part_2}")
