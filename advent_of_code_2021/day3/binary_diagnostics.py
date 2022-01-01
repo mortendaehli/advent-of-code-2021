@@ -1,19 +1,16 @@
-from typing import List, Union, Callable
 import math
+from typing import Callable, List, Union
 
 
 def load_data() -> List[str]:
-    """
-    Loading the input data and converting each line into int.
-    """
-    with open("../day4/data.txt", "r") as file:
+    with open("data.txt", "r") as file:
         data = file.read().splitlines()
     return data
 
 
 def round_half_up(number: Union[str, float], decimals: int = 0) -> int:
     multiplier = 10 ** decimals
-    return int(math.floor(number*multiplier + 0.5) / multiplier)
+    return int(math.floor(number * multiplier + 0.5) / multiplier)
 
 
 def round_half_down(number: Union[str, float]) -> int:
@@ -37,24 +34,16 @@ def least_common_value(data: List[str], rounding_function: Callable = round) -> 
     return "".join([str(rounding_function(number=(-1 * (x - 1)))) for x in process_position_mean(data=data)])
 
 
-def part_one() -> None:
-    """
-    Check is the power consumption.
-    """
-    print("Part 1: What is the power consumption of the submarine?")
+def part_one() -> float:
     data = load_data()
 
     gamma = int(most_common_value(data=data), 2)
     epsilon = int(least_common_value(data=data), 2)
-    print(f"Result: Gamma: {gamma}, Epsilon: {epsilon}, power consumption: {gamma * epsilon}")
+
+    return gamma * epsilon
 
 
-def part_two() -> None:
-    """
-    Next, you should verify the life support rating, which can be determined by
-    multiplying the oxygen generator rating by the CO2 scrubber rating.
-    """
-    print("Part 2: What is the life support rating of the submarine?")
+def part_two() -> float:
     oxygen_generator_rating = load_data()
     co2_scrubber_rating = load_data()
 
@@ -72,9 +61,16 @@ def part_two() -> None:
         idx += 1
 
     co2_rating = int(co2_scrubber_rating[0], 2)
-    print(f"Result: Oxygen rating: {oxygen_rating}, CO2 rating: {co2_rating}, life support rating: {oxygen_rating * co2_rating}")
+
+    return oxygen_rating * co2_rating
 
 
 if __name__ == "__main__":
-    part_one()
-    part_two()
+    print("Day 3: Binary Diagnostic")
+    print("-" * 80)
+    result_part_1 = part_one()
+    print(f"Part 1: What is the power consumption of the submarine?: {result_part_1}")
+    print("-" * 80)
+    result_part_2 = part_two()
+    print(f"Part 2: What is the life support rating of the submarine?: {result_part_2}")
+    print("-" * 80)
