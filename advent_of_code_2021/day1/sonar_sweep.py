@@ -14,24 +14,14 @@ def calculate_measurements_larger_than_previous(array: List[float]) -> int:
     return sum(map(lambda i: array[i] - array[i - 1] > 0, range(1, len(array))))
 
 
-def part_one() -> None:
-    """
-    Calculating many measurements are larger than the previous measurement.
-    """
-    print("Part 1: How many measurements are larger than the previous measurement?")
+def part_one() -> float:
     array = load_array()
 
-    result = calculate_measurements_larger_than_previous(array=array)
-    print(f"Answer: {result}")
+    return calculate_measurements_larger_than_previous(array=array)
 
 
-def part_two() -> None:
-    """
-    Calculating many measurements are larger than the previous measurement given sliding windows of 3.
-    """
-    print(
-        "Part 2: Consider sums of a three-measurement sliding window. How many sums are larger than the previous sum?"
-    )
+
+def part_two() -> float:
     sliding_window = 3
     array = load_array()
 
@@ -41,11 +31,15 @@ def part_two() -> None:
         map(lambda i: sum(array[i-sliding_window: i]) / sliding_window, range(sliding_window, len(array)))
     )
 
-    # Same function
-    result = calculate_measurements_larger_than_previous(array=sliding_array)
-    print(f"Answer: {result}")
+    return calculate_measurements_larger_than_previous(array=sliding_array)
 
 
 if __name__ == "__main__":
-    part_one()
-    part_two()
+    """
+    --- Day 1: Sonar Sweep ---
+    """
+    result_part_1 = part_one()
+    print(f"Part 1: How many measurements are larger than the previous measurement?: {result_part_1}")
+
+    result_part_2 = part_two()
+    print(f"Part 2: How many sums are larger than the previous sum?: {result_part_2}")
