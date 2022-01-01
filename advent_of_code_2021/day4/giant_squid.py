@@ -87,7 +87,7 @@ if __name__ == "__main__":
     print("-" * 80)
     result_part_1 = part_one()
     print(
-        f"Part 1: To guarantee victory against the giant squid, figure out which board will win first."
+        f"Part 1: To guarantee victory against the giant squid, figure out which board will win first. "
         f"What will your final score be if you choose that board?: {result_part_1}"
     )
     print("-" * 80)

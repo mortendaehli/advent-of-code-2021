@@ -45,7 +45,7 @@ if __name__ == "__main__":
     print("-" * 80)
     result_part_1 = part_one()
     print(
-        f"Part 1: Determine the horizontal position that the crabs can align to using the least fuel possible."
+        f"Part 1: Determine the horizontal position that the crabs can align to using the least fuel possible. "
         f"How much fuel must they spend to align to that position?: {result_part_1}"
     )
     print("-" * 80)

@@ -65,7 +65,7 @@ if __name__ == "__main__":
     print("-" * 80)
     result_part_1 = part_one()
     print(
-        f"Part 1: Consider only horizontal and vertical lines."
+        f"Part 1: Consider only horizontal and vertical lines. "
         f"At how many points do at least two lines overlap?: {result_part_1}"
     )
     print("-" * 80)
