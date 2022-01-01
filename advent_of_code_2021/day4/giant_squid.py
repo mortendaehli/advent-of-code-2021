@@ -1,7 +1,6 @@
-from typing import List, Optional
 import re
 from dataclasses import dataclass
-import itertools
+from typing import List, Optional
 
 
 @dataclass
@@ -23,17 +22,17 @@ def read_boards() -> List[PlayBoard]:
     with open("data.txt", "r") as file:
         data = file.readlines()[2:]
 
-    cleaned_data = list(map(lambda x: re.split('\s+', x.strip()), data))
+    cleaned_data = list(map(lambda x: re.split("\s+", x.strip()), data))  # noqa
 
     play_boards: List[PlayBoard] = list()
     for i in range(0, len(data), 6):
-        play_boards.append(PlayBoard(numbers=[list(map(int, x)) for x in cleaned_data[i: i+5]]))
+        play_boards.append(PlayBoard(numbers=[list(map(int, x)) for x in cleaned_data[i : i + 5]]))
 
     return play_boards
 
 
 def calculate_final_score(play_board: PlayBoard, number: int) -> int:
-    """ Sum remaining values on the play board. """
+    """Sum remaining values on the play board."""
     return sum([sum([val for val in row if val]) for row in play_board.numbers]) * number
 
 
@@ -57,11 +56,7 @@ def check_board_and_return_optional_score(play_board: PlayBoard, number: int) ->
         return None
 
 
-def part_one() -> None:
-    """
-    To guarantee victory against the giant squid, figure out which board will win first.
-    """
-    print("Part 1: What will your final score be if you choose that board?")
+def part_one() -> int:
     numbers, play_boards = read_numbers(), read_boards()
 
     game_results = list()
@@ -71,15 +66,10 @@ def part_one() -> None:
             if score:
                 game_results.append(score)
 
+    return game_results[0]
 
-    print(f"The value of the remaining values multiplied with last number: is: {game_results[0]}")
 
-
-def part_two() -> None:
-    """
-    Let the giant squid win.
-    """
-    print("Part 2: Figure out which board will win last. Once it wins, what would its final score be?")
+def part_two() -> int:
     numbers, play_boards = read_numbers(), read_boards()
 
     game_results = list()
@@ -89,10 +79,19 @@ def part_two() -> None:
             if score:
                 game_results.append(score)
 
-    print(f"The value of the remaining values multiplied with last number is: {game_results[-1]}")
+    return game_results[-1]
 
 
 if __name__ == "__main__":
-    part_one()
-    part_two()
-
+    print("Day 4: Giant Squid")
+    print("-" * 80)
+    result_part_1 = part_one()
+    print(
+        f"Part 1: To guarantee victory against the giant squid, figure out which board will win first. What will your final score be if you choose that board?: {result_part_1}"
+    )
+    print("-" * 80)
+    result_part_2 = part_two()
+    print(
+        f"Part 2: Figure out which board will win last. Once it wins, what would its final score be?: {result_part_2}"
+    )
+    print("-" * 80)
