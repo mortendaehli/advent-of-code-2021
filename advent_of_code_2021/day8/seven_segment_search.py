@@ -72,7 +72,7 @@ if __name__ == "__main__":
     print("-" * 80)
     result_part_2 = part_two()
     print(
-        f"Part 2: For each entry, determine all of the wire/segment connections and decode the four-digit output"
+        f"Part 2: For each entry, determine all of the wire/segment connections and decode the four-digit output "
         f" values. What do you get if you add up all of the output values?: {result_part_2}"
     )
     print("-" * 80)
