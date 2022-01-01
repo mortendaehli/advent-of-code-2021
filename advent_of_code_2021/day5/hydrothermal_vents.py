@@ -1,7 +1,6 @@
-from typing import Tuple, List
 from collections import Counter
-
 from dataclasses import dataclass
+from typing import List, Tuple
 
 
 @dataclass
@@ -43,35 +42,33 @@ def calculate_points_in_line(line: Line, include_diagonal: bool) -> List[Tuple[i
         return []
 
 
-def part_one() -> None:
-    """
-    To avoid the most dangerous areas, you need to determine the number of points where at least two lines overlap.
-    In the above example, this is anywhere in the diagram with a 2 or larger - a total of 5 points.
-    """
-    print("Part 1: At how many points do at least two lines overlap?")
+def part_one() -> int:
     lines = read_data()
     point_list = list()
     for line in lines:
         point_list += calculate_points_in_line(line=line, include_diagonal=False)
 
-    print(f"Number of overlapping points: {sum([1 for x in Counter(point_list).items() if x[1] >= 2])}")
+    return sum([1 for x in Counter(point_list).items() if x[1] >= 2])
 
 
-def part_two() -> None:
-    """
-    Unfortunately, considering only horizontal and vertical lines doesn't give you the full picture;
-    you need to also consider diagonal lines.
-    """
-    print("Part 1: At how many points do at least two lines overlap?")
+def part_two() -> int:
     lines = read_data()
     point_list = list()
     for line in lines:
         point_list += calculate_points_in_line(line=line, include_diagonal=True)
 
-    print(f"Number of overlapping points including diagonals: {len([i for i in Counter(point_list).values() if i > 1])}")
+    return len([i for i in Counter(point_list).values() if i > 1])
 
 
 if __name__ == "__main__":
-    part_one()
-    part_two()
-
+    print("Day 5: Hydrothermal Venture")
+    print("-" * 80)
+    result_part_1 = part_one()
+    print(
+        f"Consider only horizontal and vertical lines."
+        f"At how many points do at least two lines overlap?: {result_part_1}"
+    )
+    print("-" * 80)
+    result_part_2 = part_two()
+    print(f"Part 2: Consider all of the lines." f"At how many points do at least two lines overlap?: {result_part_2}")
+    print("-" * 80)
