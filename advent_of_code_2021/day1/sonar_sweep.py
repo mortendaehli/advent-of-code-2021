@@ -4,7 +4,7 @@ from typing import List
 def load_array() -> List[float]:
     with open("data.txt", "r") as file:
         data = file.read().splitlines()
-    return [float(x) for x in data]
+    return list(map(float, data))
 
 
 def calculate_measurements_larger_than_previous(array: List[float]) -> int:
@@ -18,9 +18,9 @@ def part_one() -> float:
 
 
 def part_two() -> float:
-    sliding_window = 3
     array = load_array()
 
+    sliding_window = 3
     # Need to consider the sum before index == sliding_window in a separate step in order to avoid wasted computation
     pre_sliding_array = [sum(array[:x]) / x for x in range(2, sliding_window)]
 
