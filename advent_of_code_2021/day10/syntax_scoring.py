@@ -24,7 +24,7 @@ def get_error_score(line: str) -> int:
     return 0
 
 
-def get_incomplete_stub(line: str) -> str:
+def check_if_incomplete_stub(line: str) -> bool:
     symbol_dict_close = {"]": "[", ")": "(", ">": "<", "}": "{"}
 
     symbol_list = list()
@@ -35,11 +35,9 @@ def get_incomplete_stub(line: str) -> str:
             if symbol_list[-1] == symbol_dict_close.get(char):
                 symbol_list = symbol_list[:-1]
             else:
-                break
-    else:
-        return line
+                return False
 
-    return ""
+    return True
 
 
 def score_incomplete_stub(stub: str) -> int:
@@ -73,8 +71,7 @@ def part_one() -> int:
 def part_two() -> int:
     data = read_data()
 
-    # Not possible to return None if stub is complete. There is probably a better way to do this...
-    incomplete_stubs = [x for x in map(get_incomplete_stub, data) if x]
+    incomplete_stubs = list(filter(check_if_incomplete_stub, data))
     stubs_score = list(map(score_incomplete_stub, incomplete_stubs))
 
     stubs_score.sort()
