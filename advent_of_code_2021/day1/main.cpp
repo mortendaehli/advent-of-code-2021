@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <numeric>
 
 std::vector<int> load_array() {
     std::ifstream input_stream("data.txt");
@@ -12,13 +13,14 @@ std::vector<int> load_array() {
 
 int part_1() {
     std::vector<int> data = load_array();
-    int result = 0;
-    int val = data[0];
 
-    for (int i: data) {
-        if (i > val)
+    int result = 0;
+    int previous_value;
+    for (int value: data) {
+        if (value > previous_value) {
             result++;
-        val = i;
+        }
+        previous_value = value;
     }
 
     return result;
@@ -27,13 +29,15 @@ int part_1() {
 
 int part_2() {
     std::vector<int> data = load_array();
+    int result = 0;
+    int previous_value = std::accumulate(data.begin(), data.begin() + 3, 0);
 
-    int result = 0, A, B;
-    for (int i = 3; i < data.size(); i++) {
-        A = data[i - 3] + data[i - 2] + data[i - 1];
-        B = data[i - 2] + data[i - 1] + data[i];
-        if (B > A)
+    for (auto idx = data.begin() + 1; idx != data.end() - 2; idx++) {
+        int value = std::accumulate(idx, idx + 3, 0);
+        if (value > previous_value) {
             result++;
+        }
+        previous_value = value;
     }
 
     return result;

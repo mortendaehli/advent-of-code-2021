@@ -7,8 +7,8 @@ def load_array() -> List[float]:
     return list(map(int, data))
 
 
-def calculate_measurements_larger_than_previous(array: List[float], moving_window: int = 1) -> int:
-    return sum(map(lambda i: array[i] > array[i - moving_window], range(moving_window, len(array))))
+def calculate_measurements_larger_than_previous(array: List[float]) -> int:
+    return sum(map(lambda i: array[i] > array[i - 1], range(len(array))))
 
 
 def part_one() -> int:
