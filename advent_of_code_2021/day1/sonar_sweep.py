@@ -4,20 +4,18 @@ from typing import List
 def load_array() -> List[float]:
     with open("data.txt", "r") as file:
         data = file.read().splitlines()
-    return list(map(float, data))
+    return list(map(int, data))
 
 
-def calculate_measurements_larger_than_previous(array: List[float]) -> int:
-    return sum(map(lambda i: array[i] - array[i - 1] > 0, range(1, len(array))))
+def calculate_measurements_larger_than_previous(array: List[float], moving_window: int = 1) -> int:
+    return sum(map(lambda i: array[i] > array[i - moving_window], range(moving_window, len(array))))
 
 
-def part_one() -> float:
-    array = load_array()
-
-    return calculate_measurements_larger_than_previous(array=array)
+def part_one() -> int:
+    return calculate_measurements_larger_than_previous(array=load_array())
 
 
-def part_two() -> float:
+def part_two() -> int:
     array = load_array()
 
     sliding_window = 3
